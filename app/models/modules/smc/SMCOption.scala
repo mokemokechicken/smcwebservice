@@ -6,11 +6,11 @@ import net.sf.smc.generator.SmcOptions
  * Created by k_morishita on 2014/03/05.
  */
 
-case class SMCOption(srcFileBase: String = "/tmp",
-                     targetFileBase: String = "/tmp",
-                     srcDirectory: String = "/tmp",
-                     headerDirectory: String = "/tmp",
-                     headerSuffix: String = ".h",
+case class SMCOption(srcFileBase: String = "/tmp1",
+                     targetFileBase: String = "/tmp2",
+                     srcDirectory: String = "/tmp3",
+                     headerDirectory: String = "/tmp4",
+                     headerSuffix: String = "h",
                      castType: String = "dynamic_cast",
                      graphLevel: Int = 0,
                      serialFlag: Boolean = false,
@@ -25,7 +25,7 @@ case class SMCOption(srcFileBase: String = "/tmp",
                      accessLevel: String = "public") {
 
   def toSmcOptions: SmcOptions = {
-    new SmcOptions(srcFileBase, srcFileBase, targetFileBase, srcDirectory, headerDirectory, headerSuffix,
+    new SmcOptions(srcFileBase, targetFileBase, srcDirectory, headerDirectory, headerSuffix, castType,
       graphLevel, serialFlag, debugLevel, noExceptionFlag, noCatchFlag, noStreamsFlag, reflectFlag,
       syncFlag, genericFlag, java7Flag, accessLevel)
   }

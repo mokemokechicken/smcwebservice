@@ -21,7 +21,9 @@ class SMCConverterSpec extends Specification {
       obj.generate(EX2) must throwA[SMCConvertException]
     }
 
+    //////////////////////////////////////////////////
     // Check Header
+    //////////////////////////////////////////////////
     "generate should return Header" in new ObjC {
       obj.generate(EX1).header.get must contain("@interface AppClassState : SMCState")
     }
@@ -38,25 +40,40 @@ class SMCConverterSpec extends Specification {
       obj.generate(EX1).header must beNone
     }
 
+    "generate should not return Header" in new Graph {
+      obj.generate(EX1).header must beNone
+    }
+    //////////////////////////////////////////////////
     // Check Implementation Code
+    //////////////////////////////////////////////////
     "generate should include 'Start' in impl code" in new Java {
-      obj.generate(EX1).body must contain("Start")
+      obj.generate(EX1).body must contain("public static abstract class AppClassState")
     }
 
-    "generate should include 'Start' in impl code" in new ObjC {
-      obj.generate(EX1).body must contain("Start")
+    "generate should include '@implementation AppClassState' in impl code" in new ObjC {
+      val body = obj.generate(EX1).body
+      body must contain("@implementation AppClassState")
     }
 
-    "generate should include 'Start' in impl code" in new Python {
-      obj.generate(EX1).body must contain("Start")
+    "generate should include '#import \"AppClass.h\"' in impl code" in new ObjC {
+      val body = obj.generate(EX1).body
+      body must contain("#import \"AppClass.h\"")
     }
 
-    "generate should include 'Start' in impl code" in new Ruby {
-      obj.generate(EX1).body must contain("Start")
+    "generate should include 'class AppClassState(statemap.State):' in impl code" in new Python {
+      obj.generate(EX1).body must contain("class AppClassState(statemap.State):")
     }
 
-    "generate should include 'Start' in impl code" in new JS {
-      obj.generate(EX1).body must contain("Start")
+    "generate should include 'class AppClassState < Statemap::State' in impl code" in new Ruby {
+      obj.generate(EX1).body must contain("class AppClassState < Statemap::State")
+    }
+
+    "generate should include 'AppClassState.prototype=' in impl code" in new JS {
+      obj.generate(EX1).body must contain("AppClassState.prototype=")
+    }
+
+    "generate should include 'digraph AppClass' in impl code" in new Graph {
+      obj.generate(EX1).body must contain("digraph AppClass")
     }
   }
 
@@ -68,6 +85,7 @@ trait ObjC extends SMCScope { val obj = new SMCConverter("AppClass", ObjectiveC(
 trait Python extends SMCScope { val obj = new SMCConverter("AppClass", Python())}
 trait Ruby extends SMCScope { val obj = new SMCConverter("AppClass", Ruby())}
 trait JS extends SMCScope { val obj = new SMCConverter("AppClass", JS())}
+trait Graph extends SMCScope { val obj = new SMCConverter("AppClass", Graph())}
 
 trait SMCSample {
   val EX1 = """
