@@ -34,10 +34,10 @@ case class Java() extends Language {
   override def generator: SMCOption => SmcCodeGenerator = (options: SMCOption) => new SmcJavaGenerator(options.toSmcOptions)
 }
 
-case class JS() extends Language {
+case class JavaScript() extends Language {
   override def language: TargetLanguage = TargetLanguage.JS
 
-  override def name: String = "JS"
+  override def name: String = "JavaScript"
 
   override def generator: SMCOption => SmcCodeGenerator = (options: SMCOption) => new SmcJSGenerator(options.toSmcOptions)
 }

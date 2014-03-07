@@ -84,7 +84,7 @@ trait Java extends SMCScope { val obj = new SMCConverter("AppClass", Java())}
 trait ObjC extends SMCScope { val obj = new SMCConverter("AppClass", ObjectiveC())}
 trait Python extends SMCScope { val obj = new SMCConverter("AppClass", Python())}
 trait Ruby extends SMCScope { val obj = new SMCConverter("AppClass", Ruby())}
-trait JS extends SMCScope { val obj = new SMCConverter("AppClass", JS())}
+trait JS extends SMCScope { val obj = new SMCConverter("AppClass", JavaScript())}
 trait Graph extends SMCScope { val obj = new SMCConverter("AppClass", Graph())}
 
 trait SMCSample {
