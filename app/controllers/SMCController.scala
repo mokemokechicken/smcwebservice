@@ -1,6 +1,6 @@
 package controllers
 
-import play.api.mvc.{SimpleResult, Action, Controller}
+import play.api.mvc.{Action, Controller}
 import models.modules.smc._
 import play.api.libs.json.Json
 
@@ -13,14 +13,18 @@ object SMCController extends Controller {
   def postSMC(lang: String) = Action(parse.tolerantText) { implicit request =>
     {
       val body = request.body
-      LangString2Class.map(lang) match {
+      (LangString2Class.map(lang) match {
         case None => BadRequest(s"lang=$lang is not available")
         case Some(lng) => {
           val converter = new SMCConverter("name", lng)
-          val result = converter.generate(body)
-          Ok(Json.toJson(SMCResponse(result.header, result.body)))
+          try {
+            val result = converter.generate(body)
+            Ok(Json.toJson(SMCResponse(result.header, result.body)))
+          } catch {
+            case e: SMCConvertException => BadRequest(e.showMessage())
+          }
         }
-      }
+      }).withHeaders(ACCESS_CONTROL_ALLOW_ORIGIN -> "*")
     }
   }
 }

@@ -63,6 +63,21 @@ class SMCConverter(val name: String, val language: Language) {
 class SMCConvertResult(val body: String, val header: Option[String])
 
 
-class SMCConvertException(val messages: List[SmcMessage]) extends Exception
+class SMCConvertException(val messages: List[SmcMessage]) extends Exception {
+  def showMessage(): String = {
+    val sb = new StringBuilder()
+    for (message <- messages) {
+      sb.append("Line ")
+      sb.append(message.getLineNumber())
+      message.getLevel() match {
+        case SmcMessage.WARNING => sb.append(": warning - ")
+        case SmcMessage.ERROR => sb.append(": error -")
+      }
+      sb.append(message.getText())
+      sb.append("\n")
+    }
+    sb.toString()
+  }
+}
 
 
