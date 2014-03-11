@@ -43,6 +43,10 @@ class SMCConverterSpec extends Specification {
     "generate should not return Header" in new Graph {
       obj.generate(EX1).header must beNone
     }
+
+    "generate should not return Header" in new Table {
+      obj.generate(EX1).header must beNone
+    }
     //////////////////////////////////////////////////
     // Check Implementation Code
     //////////////////////////////////////////////////
@@ -75,6 +79,10 @@ class SMCConverterSpec extends Specification {
     "generate should include 'digraph AppClass' in impl code" in new Graph {
       obj.generate(EX1).body must contain("digraph AppClass")
     }
+
+    "generate should include '<title>AppClass</title>' in impl code" in new Table {
+      obj.generate(EX1).body must contain("<title>AppClass</title>")
+    }
   }
 
 }
@@ -86,6 +94,7 @@ trait Python extends SMCScope { val obj = new SMCConverter("AppClass", Python())
 trait Ruby extends SMCScope { val obj = new SMCConverter("AppClass", Ruby())}
 trait JS extends SMCScope { val obj = new SMCConverter("AppClass", JavaScript())}
 trait Graph extends SMCScope { val obj = new SMCConverter("AppClass", Graph())}
+trait Table extends SMCScope { val obj = new SMCConverter("AppClass", Table())}
 
 trait SMCSample {
   val EX1 = """

@@ -73,3 +73,11 @@ case class Graph() extends Language {
 
   override def generator: SMCOption => SmcCodeGenerator = (options: SMCOption) => new SmcGraphGenerator(options.toSmcOptions)
 }
+
+case class Table() extends Language {
+  override def language: TargetLanguage = TargetLanguage.TABLE
+
+  override def name: String = "Table"
+
+  override def generator: SMCOption => SmcCodeGenerator = (options: SMCOption) => new SmcTableGenerator(options.toSmcOptions)
+}

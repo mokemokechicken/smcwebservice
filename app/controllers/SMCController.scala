@@ -40,6 +40,7 @@ object LangString2Class {
     case "python" => Some(Python())
     case "ruby" => Some(Ruby())
     case "scala" => Some(Scala())
+    case "table" => Some(Table())
     case _ => None
   }
 }

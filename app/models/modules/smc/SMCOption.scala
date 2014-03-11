@@ -22,7 +22,7 @@ case class SMCOption(srcFileBase: String = "/tmp1",
                      syncFlag: Boolean = false,
                      genericFlag: Boolean = false,
                      java7Flag: Boolean = false,
-                     accessLevel: String = "public") {
+                     accessLevel: String = AccessLevel.PUBLIC) {
 
   def toSmcOptions: SmcOptions = {
     new SmcOptions(srcFileBase, targetFileBase, srcDirectory, headerDirectory, headerSuffix, castType,
@@ -30,4 +30,15 @@ case class SMCOption(srcFileBase: String = "/tmp1",
       syncFlag, genericFlag, java7Flag, accessLevel)
   }
 }
+
+object AccessLevel {
+  val PUBLIC: String = "public"
+  val PROTECTED: String = "protected"
+  val PACKAGE: String = "package"
+  val PRIVATE: String = "private"
+}
+
+
+
+
 
