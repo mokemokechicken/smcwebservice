@@ -10,13 +10,13 @@ import play.api.libs.json.Json
 object SMCController extends Controller {
   implicit val fooWrites = Json.writes[SMCResponse]
 
-  def postSMC(lang: String) = Action(parse.tolerantText) { implicit request =>
+  def postSMC(lang: String, name:Option[String]=None) = Action(parse.tolerantText) { implicit request =>
     {
       val body = request.body
       (LangString2Class.map(lang) match {
         case None => BadRequest(s"lang=$lang is not available")
         case Some(lng) => {
-          val converter = new SMCConverter("name", lng)
+          val converter = new SMCConverter(name.getOrElse("name"), lng)
           try {
             val result = converter.generate(body)
             Ok(Json.toJson(SMCResponse(result.header, result.body)))

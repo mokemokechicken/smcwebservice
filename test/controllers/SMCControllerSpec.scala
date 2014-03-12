@@ -4,6 +4,7 @@ import org.specs2.mutable._
 
 import play.api.test._
 import play.api.test.Helpers._
+import play.api.libs.json.JsValue
 
 /**
  * Specs2 tests
@@ -36,6 +37,11 @@ class SMCControllerSpec extends Specification with Tables {
         { (lang, st) =>
           status(controllers.SMCController.postSMC(lang)(request)) mustEqual(st)
         }
+    }
+
+    "postSMC('ObjC', 'MyAppFSM') should include '#import MyAppFSM.h' in impl response" in new NormalReqBody {
+      val result = controllers.SMCController.postSMC("ObjC", Some("MyAppFSM"))(request)
+      (contentAsJson(result) \ "impl").as[String] must contain("""#import "MyAppFSM.h"""")
     }
   }
 }
